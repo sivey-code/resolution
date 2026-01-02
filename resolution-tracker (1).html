@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#F5F1EB">
+  <title>2026 Resolutions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Outfit', sans-serif;
+      background: #F5F1EB;
+      min-height: 100vh;
+      color: #2D2D2A;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 1.25rem;
+      padding-bottom: 2rem;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: #2D2D2A;
+    }
+    
+    .header p {
+      color: #6B6B63;
+      margin-top: 0.4rem;
+      font-size: 0.95rem;
+    }
+    
+    .tabs {
+      display: flex;
+      gap: 0.4rem;
+      margin-bottom: 1.25rem;
+      background: rgba(0,0,0,0.04);
+      padding: 0.4rem;
+      border-radius: 12px;
+    }
+    
+    .tab {
+      flex: 1;
+      padding: 0.85rem 0.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      background: transparent;
+      color: #6B6B63;
+      transition: all 0.2s ease;
+    }
+    
+    .tab.active-chocolate {
+      background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+      color: #fff;
+    }
+    
+    .tab.active-running {
+      background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+      color: #fff;
+    }
+    
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.25rem;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      gap: 0.75rem;
+    }
+    
+    .card-header h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      flex: 1;
+      color: #2D2D2A;
+    }
+    
+    .badge {
+      padding: 0.4rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    
+    .badge.success {
+      background: rgba(46, 204, 113, 0.15);
+      color: #219a52;
+    }
+    
+    .badge.danger {
+      background: rgba(231, 76, 60, 0.15);
+      color: #c0392b;
+    }
+    
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+    
+    .stat {
+      background: #F5F1EB;
+      border-radius: 10px;
+      padding: 0.75rem 0.5rem;
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    
+    .stat-label {
+      color: #6B6B63;
+      font-size: 0.7rem;
+      margin-top: 0.2rem;
+    }
+    
+    .legend {
+      color: #6B6B63;
+      font-size: 0.8rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.35rem;
+    }
+    
+    .day-header {
+      text-align: center;
+      color: #6B6B63;
+      font-size: 0.7rem;
+      padding: 0.4rem 0;
+    }
+    
+    .day-btn {
+      aspect-ratio: 1;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 8px;
+      cursor: pointer;
+      background: #fff;
+      color: #2D2D2A;
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: all 0.15s ease;
+    }
+    
+    .day-btn.clean {
+      background: rgba(46, 204, 113, 0.2);
+      color: #219a52;
+      border-color: rgba(46, 204, 113, 0.3);
+    }
+    
+    .day-btn.fail {
+      background: rgba(231, 76, 60, 0.2);
+      color: #c0392b;
+      border-color: rgba(231, 76, 60, 0.3);
+    }
+    
+    .day-btn.past {
+      color: #aaa;
+    }
+    
+    .day-btn.selected {
+      border: 2px solid #2D2D2A;
+    }
+    
+    .day-btn.today {
+      border: 2px solid rgba(0,0,0,0.25);
+    }
+    
+    .day-btn .note-indicator {
+      position: absolute;
+      bottom: 3px;
+      font-size: 0.5rem;
+      opacity: 0.7;
+    }
+    
+    .panel {
+      margin-top: 1.25rem;
+      background: #F5F1EB;
+      border-radius: 12px;
+      padding: 1rem;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .panel-header h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #2D2D2A;
+    }
+    
+    .close-btn {
+      background: rgba(0,0,0,0.06);
+      border: none;
+      color: #6B6B63;
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.8rem;
+    }
+    
+    .status-buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .status-btn {
+      flex: 1;
+      padding: 0.75rem 0.5rem;
+      border-radius: 8px;
+      border: 1px solid;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    
+    .status-btn.clean {
+      border-color: rgba(46, 204, 113, 0.4);
+      background: rgba(46, 204, 113, 0.1);
+      color: #219a52;
+    }
+    
+    .status-btn.clean.active {
+      border-color: #27ae60;
+      border-width: 2px;
+      background: rgba(46, 204, 113, 0.25);
+    }
+    
+    .status-btn.slip {
+      border-color: rgba(231, 76, 60, 0.4);
+      background: rgba(231, 76, 60, 0.1);
+      color: #c0392b;
+    }
+    
+    .status-btn.slip.active {
+      border-color: #e74c3c;
+      border-width: 2px;
+      background: rgba(231, 76, 60, 0.25);
+    }
+    
+    .status-btn.clear {
+      flex: 0.6;
+      border-color: rgba(0,0,0,0.15);
+      background: rgba(0,0,0,0.03);
+      color: #6B6B63;
+    }
+    
+    .form-label {
+      color: #6B6B63;
+      font-size: 0.8rem;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+    
+    .textarea {
+      width: 100%;
+      min-height: 90px;
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.12);
+      background: #fff;
+      color: #2D2D2A;
+      font-family: inherit;
+      font-size: 0.9rem;
+      resize: vertical;
+      line-height: 1.5;
+    }
+    
+    .textarea::placeholder {
+      color: #999;
+    }
+    
+    .input {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.12);
+      background: #fff;
+      color: #2D2D2A;
+      font-family: inherit;
+      font-size: 1rem;
+    }
+    
+    .input::placeholder {
+      color: #999;
+    }
+    
+    .hint {
+      color: #999;
+      font-size: 0.75rem;
+      margin: 0.4rem 0 0 0;
+    }
+    
+    .week-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    
+    .week-card {
+      background: #F5F1EB;
+      border-radius: 12px;
+      padding: 0.85rem;
+    }
+    
+    .week-card.feb {
+      border: 1px solid rgba(155, 89, 182, 0.3);
+      background: rgba(155, 89, 182, 0.05);
+    }
+    
+    .week-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.4rem;
+      cursor: pointer;
+    }
+    
+    .week-title {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #2D2D2A;
+    }
+    
+    .week-title .arrow {
+      font-size: 0.7rem;
+      color: #6B6B63;
+    }
+    
+    .week-progress {
+      font-weight: 600;
+      color: #6B6B63;
+    }
+    
+    .week-progress.complete {
+      color: #219a52;
+    }
+    
+    .progress-bar {
+      height: 6px;
+      background: rgba(0,0,0,0.08);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+    
+    .progress-fill.complete {
+      background: linear-gradient(90deg, #27ae60, #2ecc71);
+    }
+    
+    .progress-fill.incomplete {
+      background: linear-gradient(90deg, #3498db, #5dade2);
+    }
+    
+    .week-expanded {
+      margin-top: 0.85rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+    
+    .week-expanded .form-group {
+      margin-bottom: 0.85rem;
+    }
+    
+    .footer {
+      text-align: center;
+      color: #999;
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+    
+    @media (max-width: 400px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .stat-value {
+        font-size: 1.25rem;
+      }
+      
+      .status-buttons {
+        flex-wrap: wrap;
+      }
+      
+      .status-btn.clear {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>2026 Resolutions</h1>
+      <p>Track your progress. Stay accountable.</p>
+    </div>
+    
+    <div class="tabs">
+      <button class="tab active-chocolate" id="tab-chocolate" onclick="switchTab('chocolate')">🍫 No Chocolate</button>
+      <button class="tab" id="tab-running" onclick="switchTab('running')">🏃 Running km</button>
+    </div>
+    
+    <!-- Chocolate Tracker -->
+    <div class="card" id="chocolate-tracker">
+      <div class="card-header">
+        <h2>January: No Chocolate Challenge</h2>
+        <div class="badge" id="chocolate-badge">✓ On Track</div>
+      </div>
+      
+      <div class="stats" id="chocolate-stats"></div>
+      
+      <div class="legend">Click a day to log and add notes</div>
+      
+      <div class="calendar" id="calendar"></div>
+      
+      <div class="panel hidden" id="day-panel">
+        <div class="panel-header">
+          <h3 id="day-panel-title"></h3>
+          <button class="close-btn" onclick="closePanel()">Close</button>
+        </div>
+        <div class="status-buttons">
+          <button class="status-btn clean" id="btn-clean" onclick="setStatus('clean')">✓ Clean</button>
+          <button class="status-btn slip" id="btn-slip" onclick="setStatus('fail')">✗ Slipped</button>
+          <button class="status-btn clear" onclick="setStatus(null)">Clear</button>
+        </div>
+        <label class="form-label">Notes</label>
+        <textarea class="textarea" id="day-notes" placeholder="How did today go? Any cravings, triggers, or wins to note?" oninput="saveNote()"></textarea>
+        <p class="hint">Saves automatically</p>
+      </div>
+    </div>
+    
+    <!-- Running Tracker -->
+    <div class="card hidden" id="running-tracker">
+      <div class="card-header">
+        <h2>Jan 20km/wk → Feb 25km/wk</h2>
+        <div class="badge success" id="running-badge">0 km total</div>
+      </div>
+      
+      <div class="week-list" id="week-list"></div>
+    </div>
+    
+    <p class="footer">Data saves automatically across sessions</p>
+  </div>
+
+  <script>
+    // State
+    let activeTab = 'chocolate';
+    let selectedDay = null;
+    let expandedWeek = null;
+    let chocolateDays = {};
+    let chocolateNotes = {};
+    let weeklyKm = {};
+    let weeklyNotes = {};
+    
+    // Storage helpers
+    function saveToStorage(key, data) {
+      try {
+        localStorage.setItem(key, JSON.stringify(data));
+      } catch (e) {
+        console.log('Storage error:', e);
+      }
+    }
+    
+    function loadFromStorage(key) {
+      try {
+        const data = localStorage.getItem(key);
+        return data ? JSON.parse(data) : null;
+      } catch (e) {
+        console.log('Storage error:', e);
+        return null;
+      }
+    }
+    
+    // Load data
+    function loadData() {
+      chocolateDays = loadFromStorage('resolution-chocolate-2026') || {};
+      chocolateNotes = loadFromStorage('resolution-chocolate-notes-2026') || {};
+      weeklyKm = loadFromStorage('resolution-weekly-km-2026') || {};
+      weeklyNotes = loadFromStorage('resolution-weekly-notes-2026') || {};
+    }
+    
+    // Get January days (2026)
+    function getJanuaryDays() {
+      const days = [];
+      for (let i = 1; i <= 31; i++) {
+        const date = new Date(2026, 0, i);
+        days.push({
+          date: `2026-01-${String(i).padStart(2, '0')}`,
+          dayNum: i
+        });
+      }
+      return days;
+    }
+    
+    // Get weeks data (2026 calendar, Mon-Sun weeks)
+    function getWeeks() {
+      return [
+        { label: 'Jan 5-11', target: 20, month: 'jan' },
+        { label: 'Jan 12-18', target: 20, month: 'jan' },
+        { label: 'Jan 19-25', target: 20, month: 'jan' },
+        { label: 'Jan 26-Feb 1', target: 20, month: 'jan' },
+        { label: 'Feb 2-8', target: 25, month: 'feb' },
+        { label: 'Feb 9-15', target: 25, month: 'feb' },
+        { label: 'Feb 16-22', target: 25, month: 'feb' },
+        { label: 'Feb 23-28', target: 25, month: 'feb' },
+      ];
+    }
+    
+    // Calculate chocolate stats
+    function getChocolateStats() {
+      const janDays = getJanuaryDays();
+      let cleanDays = 0;
+      let failDays = 0;
+      let longestStreak = 0;
+      let tempStreak = 0;
+      
+      janDays.forEach(day => {
+        if (chocolateDays[day.date] === 'clean') {
+          cleanDays++;
+          tempStreak++;
+          if (tempStreak > longestStreak) longestStreak = tempStreak;
+        } else if (chocolateDays[day.date] === 'fail') {
+          failDays++;
+          tempStreak = 0;
+        }
+      });
+      
+      let currentStreak = 0;
+      const sortedDays = [...janDays].reverse();
+      for (const day of sortedDays) {
+        if (chocolateDays[day.date] === 'clean') {
+          currentStreak++;
+        } else if (chocolateDays[day.date] === 'fail') {
+          break;
+        }
+      }
+      
+      return { cleanDays, failDays, currentStreak, longestStreak };
+    }
+    
+    // Format date
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+    }
+    
+    // Switch tabs
+    function switchTab(tab) {
+      activeTab = tab;
+      document.getElementById('tab-chocolate').className = tab === 'chocolate' ? 'tab active-chocolate' : 'tab';
+      document.getElementById('tab-running').className = tab === 'running' ? 'tab active-running' : 'tab';
+      document.getElementById('chocolate-tracker').classList.toggle('hidden', tab !== 'chocolate');
+      document.getElementById('running-tracker').classList.toggle('hidden', tab !== 'running');
+      selectedDay = null;
+      closePanel();
+    }
+    
+    // Render chocolate tracker
+    function renderChocolate() {
+      const stats = getChocolateStats();
+      const today = new Date().toISOString().split('T')[0];
+      
+      // Update badge
+      const badge = document.getElementById('chocolate-badge');
+      if (stats.failDays === 0) {
+        badge.className = 'badge success';
+        badge.textContent = '✓ On Track';
+      } else {
+        badge.className = 'badge danger';
+        badge.textContent = `${stats.failDays} slip${stats.failDays > 1 ? 's' : ''}`;
+      }
+      
+      // Update stats
+      const statsHtml = [
+        { label: 'Clean Days', value: stats.cleanDays, color: '#219a52' },
+        { label: 'Slips', value: stats.failDays, color: '#c0392b' },
+        { label: 'Current Streak', value: stats.currentStreak, color: '#2980b9' },
+        { label: 'Best Streak', value: stats.longestStreak, color: '#8e44ad' },
+      ].map(s => `
+        <div class="stat">
+          <div class="stat-value" style="color: ${s.color}">${s.value}</div>
+          <div class="stat-label">${s.label}</div>
+        </div>
+      `).join('');
+      document.getElementById('chocolate-stats').innerHTML = statsHtml;
+      
+      // Render calendar
+      const dayHeaders = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(d => 
+        `<div class="day-header">${d}</div>`
+      ).join('');
+      
+      const emptyDays = '<div></div><div></div><div></div>'; // Jan 1 2026 is Thursday
+      
+      const days = getJanuaryDays().map(day => {
+        const status = chocolateDays[day.date];
+        const isToday = day.date === today;
+        const isPast = day.date < today;
+        const hasNote = chocolateNotes[day.date];
+        const isSelected = selectedDay === day.date;
+        
+        let classes = 'day-btn';
+        if (status === 'clean') classes += ' clean';
+        else if (status === 'fail') classes += ' fail';
+        else if (isPast) classes += ' past';
+        if (isSelected) classes += ' selected';
+        else if (isToday) classes += ' today';
+        
+        return `
+          <button class="${classes}" onclick="selectDay('${day.date}')">
+            ${day.dayNum}
+            ${hasNote ? '<span class="note-indicator">📝</span>' : ''}
+          </button>
+        `;
+      }).join('');
+      
+      document.getElementById('calendar').innerHTML = dayHeaders + emptyDays + days;
+      
+      // Update panel if open
+      if (selectedDay) {
+        updatePanel();
+      }
+    }
+    
+    // Select day
+    function selectDay(date) {
+      if (selectedDay === date) {
+        selectedDay = null;
+        closePanel();
+      } else {
+        selectedDay = date;
+        openPanel();
+      }
+      renderChocolate();
+    }
+    
+    // Open panel
+    function openPanel() {
+      document.getElementById('day-panel').classList.remove('hidden');
+      updatePanel();
+    }
+    
+    // Update panel
+    function updatePanel() {
+      document.getElementById('day-panel-title').textContent = formatDate(selectedDay);
+      document.getElementById('day-notes').value = chocolateNotes[selectedDay] || '';
+      
+      const status = chocolateDays[selectedDay];
+      document.getElementById('btn-clean').classList.toggle('active', status === 'clean');
+      document.getElementById('btn-slip').classList.toggle('active', status === 'fail');
+    }
+    
+    // Close panel
+    function closePanel() {
+      document.getElementById('day-panel').classList.add('hidden');
+    }
+    
+    // Set status
+    function setStatus(status) {
+      if (!selectedDay) return;
+      
+      if (status === null) {
+        delete chocolateDays[selectedDay];
+      } else {
+        chocolateDays[selectedDay] = status;
+      }
+      
+      saveToStorage('resolution-chocolate-2026', chocolateDays);
+      renderChocolate();
+    }
+    
+    // Save note
+    function saveNote() {
+      if (!selectedDay) return;
+      
+      const note = document.getElementById('day-notes').value;
+      if (note.trim()) {
+        chocolateNotes[selectedDay] = note;
+      } else {
+        delete chocolateNotes[selectedDay];
+      }
+      
+      saveToStorage('resolution-chocolate-notes-2026', chocolateNotes);
+      renderChocolate();
+    }
+    
+    // Render running tracker
+    function renderRunning() {
+      const weeks = getWeeks();
+      const totalKm = weeks.reduce((sum, w) => sum + (weeklyKm[w.label] || 0), 0);
+      
+      document.getElementById('running-badge').textContent = `${totalKm.toFixed(1)} km total`;
+      
+      const weeksHtml = weeks.map((week, i) => {
+        const actual = weeklyKm[week.label] || 0;
+        const progress = Math.min((actual / week.target) * 100, 100);
+        const isComplete = actual >= week.target;
+        const isExpanded = expandedWeek === week.label;
+        const hasNote = weeklyNotes[week.label];
+        
+        return `
+          <div class="week-card ${week.month === 'feb' ? 'feb' : ''}">
+            <div class="week-header" onclick="toggleWeek('${week.label}')">
+              <span class="week-title">
+                ${week.label}
+                ${hasNote ? '<span style="font-size: 0.75rem; opacity: 0.7">📝</span>' : ''}
+                <span class="arrow">${isExpanded ? '▲' : '▼'}</span>
+              </span>
+              <span class="week-progress ${isComplete ? 'complete' : ''}">
+                ${actual.toFixed(1)} / ${week.target} km${isComplete ? ' ✓' : ''}
+              </span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill ${isComplete ? 'complete' : 'incomplete'}" style="width: ${progress}%"></div>
+            </div>
+            ${isExpanded ? `
+              <div class="week-expanded">
+                <div class="form-group">
+                  <label class="form-label">Total kilometres this week</label>
+                  <input type="number" class="input" value="${actual || ''}" placeholder="0" step="0.1" min="0" 
+                    oninput="updateWeeklyKm('${week.label}', this.value)" onclick="event.stopPropagation()">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Weekly reflection</label>
+                  <textarea class="textarea" placeholder="How did this week go? Energy levels, routes tried, what worked well?"
+                    oninput="updateWeeklyNote('${week.label}', this.value)" onclick="event.stopPropagation()">${weeklyNotes[week.label] || ''}</textarea>
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+      
+      document.getElementById('week-list').innerHTML = weeksHtml;
+    }
+    
+    // Toggle week
+    function toggleWeek(label) {
+      expandedWeek = expandedWeek === label ? null : label;
+      renderRunning();
+    }
+    
+    // Update weekly km
+    function updateWeeklyKm(label, value) {
+      if (value && !isNaN(parseFloat(value))) {
+        weeklyKm[label] = parseFloat(value);
+      } else {
+        delete weeklyKm[label];
+      }
+      saveToStorage('resolution-weekly-km-2026', weeklyKm);
+      renderRunning();
+    }
+    
+    // Update weekly note
+    function updateWeeklyNote(label, value) {
+      if (value.trim()) {
+        weeklyNotes[label] = value;
+      } else {
+        delete weeklyNotes[label];
+      }
+      saveToStorage('resolution-weekly-notes-2026', weeklyNotes);
+    }
+    
+    // Init
+    loadData();
+    renderChocolate();
+    renderRunning();
+  </script>
+</body>
+</html>
